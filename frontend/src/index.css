@@ -1,0 +1,242 @@
+/* Basic styles - Tailwind support disabled for build */
+
+* {
+  border-color: #e2e8f0;
+}
+
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #0f172a;
+}
+
+@layer components {
+  /* Card components */
+  .card {
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .card-hover {
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    transition: box-shadow 0.2s;
+  }
+
+  .card-hover:hover {
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  /* Badge components */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .badge-success {
+    background-color: #f0fdf4;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+  }
+
+  .badge-warning {
+    background-color: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fcd34d;
+  }
+
+  .badge-critical {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+  }
+
+  /* Button components */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background-color: #4f46e5;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: #4338ca;
+  }
+
+  .btn-secondary {
+    background-color: #e2e8f0;
+    color: #0f172a;
+  }
+
+  .btn-secondary:hover {
+    background-color: #cbd5e1;
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: #475569;
+  }
+
+  .btn-ghost:hover {
+    background-color: #f1f5f9;
+  }
+
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    color: #475569;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .btn-icon:hover {
+    background-color: #f1f5f9;
+  }
+
+  /* Form components */
+  .form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    background-color: white;
+    color: #0f172a;
+    transition: all 0.2s;
+  }
+
+  .form-input:focus {
+    outline: none;
+    ring: 2px;
+    ring-color: #4f46e5;
+    border-color: #4f46e5;
+  }
+
+  .form-input:disabled {
+    background-color: #f8fafc;
+    color: #94a3b8;
+    cursor: not-allowed;
+  }
+
+  /* Table components */
+  .table-row {
+    border-bottom: 1px solid #e2e8f0;
+    transition: background-color 0.2s;
+  }
+
+  .table-row:hover {
+    background-color: #f8fafc;
+  }
+
+  .table-cell {
+    padding: 1.5rem;
+    font-size: 0.875rem;
+    color: #0f172a;
+  }
+
+  .table-cell-muted {
+    padding: 1.5rem;
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  width: 1126px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  border-inline: 1px solid var(--border);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}

@@ -1,0 +1,330 @@
+.login-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f4f6fb 0%, #eef2ff 100%);
+  padding: 28px;
+}
+
+.login-card {
+  width: min(1100px, 100%);
+  min-height: 760px;
+  display: grid;
+  grid-template-columns: 1.06fr 1.34fr;
+  background: #ffffff;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+}
+
+.brand-panel {
+  background: linear-gradient(180deg, #f9fafc 0%, #eef3ff 100%);
+  border-right: 1px solid rgba(148, 163, 184, 0.28);
+  padding: 52px 36px 42px;
+  display: flex;
+  align-items: stretch;
+}
+
+.brand-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.brand-title {
+  color: #1f2937;
+  font-size: clamp(1.7rem, 2.2vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+
+.brand-title.secondary {
+  margin-top: 6px;
+  font-size: clamp(1.3rem, 1.6vw, 2rem);
+  letter-spacing: 0.04em;
+}
+
+.feature-list {
+  margin-top: 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  color: #334155;
+  font-size: 1.12rem;
+  font-weight: 600;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.illustration-box {
+  margin-top: 34px;
+  width: min(290px, 100%);
+  height: 230px;
+  background: linear-gradient(180deg, #dfe8ff 0%, #F5F7FF 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.illustration-pill {
+  position: absolute;
+  left: 32px;
+  top: 34px;
+  width: 120px;
+  height: 44px;
+  background: linear-gradient(135deg, #95a7ff 0%, #5b6cf3 100%);
+  border-radius: 16px;
+  box-shadow: 0 16px 30px rgba(91, 108, 243, 0.25);
+}
+
+.illustration-bar {
+  position: absolute;
+  left: 36px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #afbfef 0%, #dfe5ff 100%);
+}
+
+.bar-one {
+  top: 110px;
+  width: 175px;
+}
+
+.bar-two {
+  top: 142px;
+  width: 210px;
+}
+
+.bar-three {
+  top: 174px;
+  width: 150px;
+}
+
+.form-panel {
+  background: #ffffff;
+  padding: 54px 54px 42px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.welcome-text {
+  color: #0f172a;
+  font-size: clamp(2rem, 2.8vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin-bottom: 32px;
+}
+
+.portal-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(110px, 1fr));
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.portal-btn {
+  background: #f3f6ff;
+  border: 1px solid #dfe7ff;
+  border-radius: 14px;
+  color: #334155;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 16px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.portal-btn.active {
+  background: linear-gradient(135deg, #5b6cf3 0%, #6d4fd7 100%);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(91, 108, 243, 0.28);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field-group label {
+  color: #334155;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.field-group input {
+  width: 100%;
+  height: 58px;
+  border: 1px solid #dfe7ff;
+  border-radius: 14px;
+  padding: 0 18px;
+  font-size: 1rem;
+  color: #0f172a;
+  background: #f9fbff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-group input:focus {
+  outline: none;
+  border-color: #6d4fd7;
+  box-shadow: 0 0 0 4px rgba(109, 79, 215, 0.12);
+}
+
+.field-group input::placeholder {
+  color: #94a3b8;
+}
+
+.remember-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #475569;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  margin-top: 6px;
+}
+
+.remember-row input {
+  width: 16px;
+  height: 16px;
+  accent-color: #5b6cf3;
+}
+
+.login-button {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: white;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 18px 20px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px rgba(15, 23, 42, 0.18);
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background: #fff1f2;
+  color: #b42318;
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.login-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.forgot-link {
+  background: transparent;
+  border: none;
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+  color: #667eea;
+}
+
+.register-link {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.register-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.register-link:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+  .login-card {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .brand-panel {
+    border-right: none;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+    padding: 36px 24px 28px;
+  }
+
+  .form-panel {
+    padding: 32px 24px 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-shell {
+    padding: 16px;
+  }
+
+  .portal-toggle {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .welcome-text {
+    font-size: 2.2rem;
+  }
+
+  .field-group input {
+    height: 52px;
+  }
+}
