@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Optional, Any
+import os
 import jwt
 import hashlib
 from fastapi import Depends, HTTPException, status
@@ -7,8 +8,8 @@ from fastapi.security import HTTPBearer
 from passlib.context import CryptContext
 
 # Configuration
-SECRET_KEY = "your-secret-key-change-in-production"
-ALGORITHM = "HS256"
+SECRET_KEY = os.getenv("SECRET_KEY", "local-development-secret-change-me")
+ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Password hashing using PBKDF2 (no bcrypt compatibility issues)

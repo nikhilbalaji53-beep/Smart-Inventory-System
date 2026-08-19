@@ -48,7 +48,13 @@ app = FastAPI(
 # app.add_middleware(HTTPSRedirectMiddleware)  # Enable in production only
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=["localhost", "127.0.0.1", "testserver", "*.example.com"]
+    allowed_hosts=[
+        "localhost",
+        "127.0.0.1",
+        "testserver",
+        "*.example.com",
+        os.getenv("RENDER_EXTERNAL_HOSTNAME", "*.onrender.com"),
+    ]
 )
 
 # Add CORS middleware for frontend communication (SECURE)

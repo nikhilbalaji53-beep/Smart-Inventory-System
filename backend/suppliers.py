@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 import jwt
 import re
+import os
 from passlib.context import CryptContext
 
 from database import get_db
@@ -11,8 +12,8 @@ from models import Supplier
 from auth import verify_token, hash_password
 
 # Configuration
-SECRET_KEY = "your-secret-key-change-in-production"
-ALGORITHM = "HS256"
+SECRET_KEY = os.getenv("SECRET_KEY", "local-development-secret-change-me")
+ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 router = APIRouter(prefix="/supplier", tags=["Supplier"])
