@@ -42,7 +42,28 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     return encoded_jwt
 
 
-def verify_token(credentials: Any = Depends(security)) -> str:
+class TokenPayload(str):
+    """String representing the token subject, with dict-like access to payload claims."""
+    def __new__(cls, sub: str, payload: dict | None = None):
+        instance = super().__new__(cls, sub or "")
+        instance.payload = payload or {}
+        return instance
+
+    def get(self, key, default=None):
+        return self.payload.get(key, default)
+
+    def __getitem__(self, key):
+        if isinstance(key, str):
+            return self.payload[key]
+        return super().__getitem__(key)
+
+    def __contains__(self, key):
+        if isinstance(key, str):
+            return key in self.payload or super().__contains__(key)
+        return super().__contains__(key)
+
+
+def verify_token(credentials: Any = Depends(security)) -> TokenPayload:
     """Verify JWT token and return the authenticated user ID."""
     token = credentials.credentials
 
@@ -57,7 +78,7 @@ def verify_token(credentials: Any = Depends(security)) -> str:
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-        return user_id
+        return TokenPayload(user_id, payload)
     
     except jwt.ExpiredSignatureError:
         raise HTTPException(

@@ -22,6 +22,7 @@ from dashboard import router as dashboard_router
 from orders import router as orders_router
 from supplier_workflow import router as supplier_workflow_router
 from transactions import router as transactions_router
+from sales import router as sales_router
 
 # Configure logging
 logging.basicConfig(
@@ -79,6 +80,7 @@ app.include_router(notifications_router, tags=["Notifications"])
 app.include_router(orders_router, tags=["Orders"])
 app.include_router(supplier_workflow_router)
 app.include_router(transactions_router)
+app.include_router(sales_router)
 
 
 @app.get("/", include_in_schema=False)
@@ -136,7 +138,7 @@ if frontend_dist.exists():
         
         # Exclude API routes from SPA serving
         api_prefixes = [
-            "supplier", "products", "users", "alerts", "dashboard", 
+            "api", "sales", "supplier", "products", "users", "alerts", "dashboard", 
             "expiry", "notifications", "orders", "product", "reorder-decision", "reorder-decisions",
             "supplier-alert", "transactions", "health", "docs", "openapi.json", "predictions"
         ]

@@ -12,6 +12,7 @@ class Product(Base):
     category = Column(String(100))
     price = Column(Numeric(10, 2), nullable=False)
     current_stock = Column(Integer, default=0, nullable=False)
+    quantity = Column(Integer, default=0, nullable=False)
     minimum_stock = Column(Integer, default=10, nullable=False)
     supplier = Column(String(150))
     expiry_date = Column(Date)
@@ -267,4 +268,14 @@ class SalesTransaction(Base):
     total_revenue = Column(Numeric(12, 2), nullable=False)
     transaction_date = Column(TIMESTAMP, server_default=func.current_timestamp(), index=True)
     notes = Column(Text)
+    created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
+
+
+class Sale(Base):
+    __tablename__ = "sales"
+
+    id = Column(Integer, primary_key=True, index=True)
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=False, index=True)
+    quantity = Column(Integer, nullable=False)
+    sale_date = Column(String(50))
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())

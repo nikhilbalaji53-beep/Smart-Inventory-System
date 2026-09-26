@@ -6,7 +6,7 @@ from datetime import datetime, date
 from typing import List
 
 from database import get_db
-from models import PurchaseOrder, OrderDelivery, Product, Supplier
+from models import PurchaseOrder, OrderDelivery, Product, Supplier, User
 from auth import verify_token
 from alerts import get_alerts
 
@@ -70,6 +70,34 @@ class PurchaseOrderWithDeliveries(BaseModel):
         from_attributes = True
 
 
+def get_supplier_from_token(token_data, db: Session) -> Supplier:
+    supplier_key = token_data.get("supplier_id") if hasattr(token_data, "get") else None
+    if not supplier_key:
+        supplier_key = str(token_data)
+    supplier = db.query(Supplier).filter(
+        (Supplier.supplier_id == supplier_key) | (Supplier.id == supplier_key)
+    ).first()
+    if not supplier:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Supplier not found"
+        )
+    return supplier
+
+
+def verify_admin_token(token_data, db: Session):
+    is_admin = token_data.get("is_admin") if hasattr(token_data, "get") else None
+    if is_admin:
+        return True
+    user = db.query(User).filter(User.username == str(token_data), User.is_admin == 1).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admins can create purchase orders"
+        )
+    return True
+
+
 # Supplier endpoints - get their pending purchase orders
 @router.get("/pending")
 def get_pending_orders(
@@ -77,23 +105,7 @@ def get_pending_orders(
     db: Session = Depends(get_db)
 ):
     """Get pending purchase orders for the logged-in supplier"""
-    
-    supplier_id = token_data.get("supplier_id")
-    if not supplier_id:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Not a supplier account"
-        )
-    
-    supplier = db.query(Supplier).filter(
-        Supplier.supplier_id == supplier_id
-    ).first()
-    
-    if not supplier:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Supplier not found"
-        )
+    supplier = get_supplier_from_token(token_data, db)
     
     pending_orders = db.query(PurchaseOrder).filter(
         PurchaseOrder.supplier_id == supplier.id,
@@ -121,16 +133,11 @@ def get_order_details(
     db: Session = Depends(get_db)
 ):
     """Get details of a specific purchase order"""
+    supplier = get_supplier_from_token(token_data, db)
     
-    supplier_id = token_data.get("supplier_id")
-    if not supplier_id:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Not a supplier account"
-        )
-    
-    supplier = db.query(Supplier).filter(
-        Supplier.supplier_id == supplier_id
+    order = db.query(PurchaseOrder).filter(
+        PurchaseOrder.id == po_id,
+        PurchaseOrder.supplier_id == supplier.id
     ).first()
     
     order = db.query(PurchaseOrder).filter(
@@ -161,17 +168,7 @@ def accept_order(
     db: Session = Depends(get_db)
 ):
     """Supplier accepts a purchase order"""
-    
-    supplier_id = token_data.get("supplier_id")
-    if not supplier_id:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Not a supplier account"
-        )
-    
-    supplier = db.query(Supplier).filter(
-        Supplier.supplier_id == supplier_id
-    ).first()
+    supplier = get_supplier_from_token(token_data, db)
     
     order = db.query(PurchaseOrder).filter(
         PurchaseOrder.id == po_id,
@@ -205,17 +202,7 @@ def submit_delivery(
     db: Session = Depends(get_db)
 ):
     """Supplier submits delivery information for a purchase order"""
-    
-    supplier_id = token_data.get("supplier_id")
-    if not supplier_id:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Not a supplier account"
-        )
-    
-    supplier = db.query(Supplier).filter(
-        Supplier.supplier_id == supplier_id
-    ).first()
+    supplier = get_supplier_from_token(token_data, db)
     
     order = db.query(PurchaseOrder).filter(
         PurchaseOrder.id == po_id,
@@ -300,11 +287,7 @@ def create_purchase_order(
     """Admin creates a new purchase order for a supplier"""
     
     # Verify admin
-    if not token_data.get("is_admin"):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only admins can create purchase orders"
-        )
+    verify_admin_token(token_data, db)
     
     # Verify supplier exists
     supplier = db.query(Supplier).filter(
