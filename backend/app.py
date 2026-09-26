@@ -1,3 +1,9 @@
+from datetime import datetime
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+from database import init_db, get_db_connection
+
+
 import os
 from datetime import datetime
 import pymysql
@@ -147,6 +153,284 @@ def get_sales():
 
     return jsonify([dict(sale) for sale in sales])
 
+# -----------------------------------
+# RECORD SALE & UPDATE STOCK
+# -----------------------------------
+@app.route("/api/sales", methods=["POST"])
+def record_sale():
+    data = request.get_json()
 
+    if not data or "product_id" not in data or "quantity" not in data:
+        return jsonify({
+            "error": "product_id and quantity are required"
+        }), 400
+
+    product_id = data["product_id"]
+    sale_quantity = data["quantity"]
+
+    conn = get_db_connection()
+
+    product = conn.execute(
+        "SELECT * FROM products WHERE id = ?",
+        (product_id,)
+    ).fetchone()
+
+    if not product:
+        conn.close()
+        return jsonify({"error": "Product not found"}), 404
+
+    if product["quantity"] < sale_quantity:
+        conn.close()
+        return jsonify({"error": "Insufficient stock"}), 400
+
+    # Reduce product stock
+    conn.execute("""
+        UPDATE products
+        SET quantity = quantity - ?
+        WHERE id = ?
+    """, (sale_quantity, product_id))
+
+    # Record sales entry
+    conn.execute("""
+        INSERT INTO sales (product_id, quantity, sale_date)
+        VALUES (?, ?, ?)
+    """, (
+        product_id,
+        sale_quantity,
+        data.get("sale_date", datetime.today().strftime("%Y-%m-%d"))
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "message": "Sale recorded and stock updated successfully"
+    }), 201
+
+
+# -----------------------------------
+# GET SALES HISTORY
+# -----------------------------------
+@app.route("/api/sales", methods=["GET"])
+def get_sales():
+    conn = get_db_connection()
+    sales = conn.execute("""
+        SELECT sales.id, products.name, sales.quantity, sales.sale_date 
+        FROM sales 
+        JOIN products ON sales.product_id = products.id
+        ORDER BY sales.id DESC
+    """).fetchall()
+    conn.close()
+
+# -----------------------------------
+# RECORD SALE & UPDATE STOCK
+# -----------------------------------
+@app.route("/api/sales", methods=["POST"])
+def record_sale():
+    data = request.get_json()
+
+    if not data or "product_id" not in data or "quantity" not in data:
+        return jsonify({
+            "error": "product_id and quantity are required"
+        }), 400
+
+    product_id = data["product_id"]
+    sale_quantity = data["quantity"]
+
+    conn = get_db_connection()
+
+    product = conn.execute(
+        "SELECT * FROM products WHERE id = ?",
+        (product_id,)
+    ).fetchone()
+
+    if not product:
+        conn.close()
+        return jsonify({"error": "Product not found"}), 404
+
+    if product["quantity"] < sale_quantity:
+        conn.close()
+        return jsonify({"error": "Insufficient stock"}), 400
+
+    # Reduce product stock
+    conn.execute("""
+        UPDATE products
+        SET quantity = quantity - ?
+        WHERE id = ?
+    """, (sale_quantity, product_id))
+
+    # Record sales entry
+    conn.execute("""
+        INSERT INTO sales (product_id, quantity, sale_date)
+        VALUES (?, ?, ?)
+    """, (
+        product_id,
+        sale_quantity,
+        data.get("sale_date", datetime.today().strftime("%Y-%m-%d"))
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "message": "Sale recorded and stock updated successfully"
+    }), 201
+
+
+# -----------------------------------
+# GET SALES HISTORY
+# -----------------------------------
+@app.route("/api/sales", methods=["GET"])
+def get_sales():
+    conn = get_db_connection()
+    sales = conn.execute("""
+        SELECT sales.id, products.name, sales.quantity, sales.sale_date 
+        FROM sales 
+        JOIN products ON sales.product_id = products.id
+        ORDER BY sales.id DESC
+    """).fetchall()
+    conn.close()
+
+
+# RECORD SALE & UPDATE STOCK
+# -----------------------------------
+@app.route("/api/sales", methods=["POST"])
+def record_sale():
+    data = request.get_json()
+
+    if not data or "product_id" not in data or "quantity" not in data:
+        return jsonify({
+            "error": "product_id and quantity are required"
+        }), 400
+
+    product_id = data["product_id"]
+    sale_quantity = data["quantity"]
+
+    conn = get_db_connection()
+
+    product = conn.execute(
+        "SELECT * FROM products WHERE id = ?",
+        (product_id,)
+    ).fetchone()
+
+    if not product:
+        conn.close()
+        return jsonify({"error": "Product not found"}), 404
+
+    if product["quantity"] < sale_quantity:
+        conn.close()
+        return jsonify({"error": "Insufficient stock"}), 400
+
+    # Reduce product stock
+    conn.execute("""
+        UPDATE products
+        SET quantity = quantity - ?
+        WHERE id = ?
+    """, (sale_quantity, product_id))
+
+    # Record sales entry
+    conn.execute("""
+        INSERT INTO sales (product_id, quantity, sale_date)
+        VALUES (?, ?, ?)
+    """, (
+        product_id,
+        sale_quantity,
+        data.get("sale_date", datetime.today().strftime("%Y-%m-%d"))
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "message": "Sale recorded and stock updated successfully"
+    }), 201
+
+
+# -----------------------------------
+# GET SALES HISTORY
+# -----------------------------------
+@app.route("/api/sales", methods=["GET"])
+def get_sales():
+    conn = get_db_connection()
+    sales = conn.execute("""
+        SELECT sales.id, products.name, sales.quantity, sales.sale_date 
+        FROM sales 
+        JOIN products ON sales.product_id = products.id
+        ORDER BY sales.id DESC
+    """).fetchall()
+    conn.close()
+
+# -----------------------------------
+# RECORD SALE & UPDATE STOCK
+# -----------------------------------
+@app.route("/api/sales", methods=["POST"])
+def record_sale():
+    data = request.get_json()
+
+    if not data or "product_id" not in data or "quantity" not in data:
+        return jsonify({
+            "error": "product_id and quantity are required"
+        }), 400
+
+    product_id = data["product_id"]
+    sale_quantity = data["quantity"]
+
+    conn = get_db_connection()
+
+    product = conn.execute(
+        "SELECT * FROM products WHERE id = ?",
+        (product_id,)
+    ).fetchone()
+
+    if not product:
+        conn.close()
+        return jsonify({"error": "Product not found"}), 404
+
+    if product["quantity"] < sale_quantity:
+        conn.close()
+        return jsonify({"error": "Insufficient stock"}), 400
+
+    # Reduce product stock
+    conn.execute("""
+        UPDATE products
+        SET quantity = quantity - ?
+        WHERE id = ?
+    """, (sale_quantity, product_id))
+
+    # Record sales entry
+    conn.execute("""
+        INSERT INTO sales (product_id, quantity, sale_date)
+        VALUES (?, ?, ?)
+    """, (
+        product_id,
+        sale_quantity,
+        data.get("sale_date", datetime.today().strftime("%Y-%m-%d"))
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "message": "Sale recorded and stock updated successfully"
+    }), 201
+
+
+# -----------------------------------
+# GET SALES HISTORY
+# -----------------------------------
+@app.route("/api/sales", methods=["GET"])
+def get_sales():
+    conn = get_db_connection()
+    sales = conn.execute("""
+        SELECT sales.id, products.name, sales.quantity, sales.sale_date 
+        FROM sales 
+        JOIN products ON sales.product_id = products.id
+        ORDER BY sales.id DESC
+    """).fetchall()
+    conn.close()
+
+    return jsonify([dict(sale) for sale in sales])
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
+    
